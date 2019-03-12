@@ -10,6 +10,7 @@ namespace TimeConversion
             // Current UTC Time.
             var currentDateTime = DateTime.UtcNow;
             Console.WriteLine("Current UTC DateTime --> {0}", currentDateTime);
+            
             // Tokyo Peek Business Hours are mocked.
             var downTimeTokyo = new Dictionary<DayOfWeek, List<PeekDuration>>();
             downTimeTokyo.Add(DayOfWeek.Sunday, new List<PeekDuration> { new PeekDuration { StartTime = "22:00:00", EndTime="23:59:00" } });
