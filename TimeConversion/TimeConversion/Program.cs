@@ -10,19 +10,32 @@ namespace TimeConversion
             // Current UTC Time.
             var currentDateTime = DateTime.UtcNow;
             Console.WriteLine("Current UTC DateTime --> {0}", currentDateTime);
-            
+            Console.WriteLine("Enter Number of days if you need to add (Ex: 2, adds two days)");
+            int days = 0;
+            Int32.TryParse(Console.ReadLine(), out days);
+            if (days > 0)
+                currentDateTime = currentDateTime.AddDays(days);
+            Console.WriteLine("User UTC DateTime --> {0}", currentDateTime);
             // Tokyo Peek Business Hours are mocked.
             var downTimeTokyo = new Dictionary<DayOfWeek, List<PeekDuration>>();
-            downTimeTokyo.Add(DayOfWeek.Sunday, new List<PeekDuration> { new PeekDuration { StartTime = "22:00:00", EndTime="23:59:00" } });
-            downTimeTokyo.Add(DayOfWeek.Monday, new List<PeekDuration> { new PeekDuration { StartTime = "00:00:00", EndTime = "08:28:00" }, new PeekDuration { StartTime = "22:00:00", EndTime = "23:59:00" } });
-            downTimeTokyo.Add(DayOfWeek.Tuesday, new List<PeekDuration> { new PeekDuration { StartTime = "00:00:00", EndTime = "08:28:00" }, new PeekDuration { StartTime = "22:00:00", EndTime = "23:59:00" } });
-            downTimeTokyo.Add(DayOfWeek.Wednesday, new List<PeekDuration> { new PeekDuration { StartTime = "00:00:00", EndTime = "08:28:00" }, new PeekDuration { StartTime = "22:00:00", EndTime = "23:59:00" } });
-            downTimeTokyo.Add(DayOfWeek.Thursday, new List<PeekDuration> { new PeekDuration { StartTime = "00:00:00", EndTime = "08:28:00" }, new PeekDuration { StartTime = "22:00:00", EndTime = "23:59:00" } });
-            downTimeTokyo.Add(DayOfWeek.Friday, new List<PeekDuration> { new PeekDuration { StartTime = "00:00:00", EndTime = "08:28:00" } });
-            
+            downTimeTokyo.Add(DayOfWeek.Sunday, new List<PeekDuration> { new PeekDuration { StartDateTime = new DateTime(currentDateTime.Year,currentDateTime.Month,currentDateTime.Day,22,0,0).AddDays(GetDays(currentDateTime.DayOfWeek,DayOfWeek.Sunday)), EndDateTime = new DateTime(currentDateTime.Year, currentDateTime.Month, currentDateTime.Day, 23, 59, 0).AddDays(GetDays(currentDateTime.DayOfWeek, DayOfWeek.Sunday)) } });
+            downTimeTokyo.Add(DayOfWeek.Monday, new List<PeekDuration> { new PeekDuration { StartDateTime = new DateTime(currentDateTime.Year, currentDateTime.Month, currentDateTime.Day, 0, 0, 0).AddDays(GetDays(currentDateTime.DayOfWeek, DayOfWeek.Monday)), EndDateTime = new DateTime(currentDateTime.Year, currentDateTime.Month, currentDateTime.Day, 8, 28, 0).AddDays(GetDays(currentDateTime.DayOfWeek, DayOfWeek.Monday)) }, new PeekDuration { StartDateTime = new DateTime(currentDateTime.Year, currentDateTime.Month, currentDateTime.Day, 22, 0, 0).AddDays(GetDays(currentDateTime.DayOfWeek, DayOfWeek.Monday)), EndDateTime = new DateTime(currentDateTime.Year, currentDateTime.Month, currentDateTime.Day, 23, 59, 0).AddDays(GetDays(currentDateTime.DayOfWeek, DayOfWeek.Monday)) } });
+            downTimeTokyo.Add(DayOfWeek.Tuesday, new List<PeekDuration> { new PeekDuration { StartDateTime = new DateTime(currentDateTime.Year, currentDateTime.Month, currentDateTime.Day, 0, 0, 0).AddDays(GetDays(currentDateTime.DayOfWeek, DayOfWeek.Tuesday)), EndDateTime = new DateTime(currentDateTime.Year, currentDateTime.Month, currentDateTime.Day, 8, 28, 0).AddDays(GetDays(currentDateTime.DayOfWeek, DayOfWeek.Tuesday)) }, new PeekDuration { StartDateTime = new DateTime(currentDateTime.Year, currentDateTime.Month, currentDateTime.Day, 22, 0, 0).AddDays(GetDays(currentDateTime.DayOfWeek, DayOfWeek.Tuesday)), EndDateTime = new DateTime(currentDateTime.Year, currentDateTime.Month, currentDateTime.Day, 23, 59, 0).AddDays(GetDays(currentDateTime.DayOfWeek, DayOfWeek.Tuesday)) } });
+            downTimeTokyo.Add(DayOfWeek.Wednesday, new List<PeekDuration> { new PeekDuration { StartDateTime = new DateTime(currentDateTime.Year, currentDateTime.Month, currentDateTime.Day, 0, 0, 0).AddDays(GetDays(currentDateTime.DayOfWeek, DayOfWeek.Wednesday)), EndDateTime = new DateTime(currentDateTime.Year, currentDateTime.Month, currentDateTime.Day, 8, 28, 0).AddDays(GetDays(currentDateTime.DayOfWeek, DayOfWeek.Wednesday)) }, new PeekDuration { StartDateTime = new DateTime(currentDateTime.Year, currentDateTime.Month, currentDateTime.Day, 22, 0, 0).AddDays(GetDays(currentDateTime.DayOfWeek, DayOfWeek.Wednesday)), EndDateTime = new DateTime(currentDateTime.Year, currentDateTime.Month, currentDateTime.Day, 23, 59, 0).AddDays(GetDays(currentDateTime.DayOfWeek, DayOfWeek.Wednesday)) } });
+            downTimeTokyo.Add(DayOfWeek.Thursday, new List<PeekDuration> { new PeekDuration { StartDateTime = new DateTime(currentDateTime.Year, currentDateTime.Month, currentDateTime.Day, 0, 0, 0).AddDays(GetDays(currentDateTime.DayOfWeek, DayOfWeek.Thursday)), EndDateTime = new DateTime(currentDateTime.Year, currentDateTime.Month, currentDateTime.Day, 8, 28, 0).AddDays(GetDays(currentDateTime.DayOfWeek, DayOfWeek.Thursday)) }, new PeekDuration { StartDateTime = new DateTime(currentDateTime.Year, currentDateTime.Month, currentDateTime.Day, 22, 0, 0).AddDays(GetDays(currentDateTime.DayOfWeek, DayOfWeek.Thursday)), EndDateTime = new DateTime(currentDateTime.Year, currentDateTime.Month, currentDateTime.Day, 23, 59, 0).AddDays(GetDays(currentDateTime.DayOfWeek, DayOfWeek.Thursday)) } });
+            downTimeTokyo.Add(DayOfWeek.Friday, new List<PeekDuration> { new PeekDuration { StartDateTime = new DateTime(currentDateTime.Year, currentDateTime.Month, currentDateTime.Day, 0, 0, 0).AddDays(GetDays(currentDateTime.DayOfWeek, DayOfWeek.Friday)), EndDateTime = new DateTime(currentDateTime.Year, currentDateTime.Month, currentDateTime.Day, 8, 28, 0).AddDays(GetDays(currentDateTime.DayOfWeek, DayOfWeek.Friday)) } });
+           
             DisplayTokyoPeekDurations(currentDateTime, downTimeTokyo);
             DisplayLondonPeekDurations(currentDateTime,downTimeTokyo);
             Console.ReadLine();
+        }
+
+        private static int GetDays(DayOfWeek today, DayOfWeek day)
+        {
+            if (today == day)
+                return 0;
+            else
+                return day - today;
         }
 
         /// <summary>
@@ -38,11 +51,11 @@ namespace TimeConversion
             var peekDurations = new List<String>();
             foreach (var peekDuration in peekDurationsToday)
             {
-                peekDurations.Add(string.Format("{2} {0}-{1}", peekDuration.StartTime, peekDuration.EndTime, currentDateTime.DayOfWeek));
+                peekDurations.Add(string.Format("{2} {0}-{1}", peekDuration.StartDateTime.TimeOfDay, peekDuration.EndDateTime.TimeOfDay, currentDateTime.DayOfWeek));
             }
             var tokyoPeekDurations = string.Join(", ", peekDurations.ToArray());
 
-            Console.WriteLine("Today, Peek Hours in Tokyo are --> {0}", tokyoPeekDurations);
+            Console.WriteLine("Peek Hours in Tokyo are --> {0}", tokyoPeekDurations);
         }
 
         /// <summary>
@@ -59,7 +72,7 @@ namespace TimeConversion
             }
             var londonPeekDurations = string.Join(", ", peekDurations.ToArray());
 
-            Console.WriteLine("Today, Peek Hours in London are --> {0}", londonPeekDurations);
+            Console.WriteLine("Peek Hours in London are --> {0}", londonPeekDurations);
         }
 
         /// <summary>
@@ -129,19 +142,24 @@ namespace TimeConversion
         /// </Result>
         private static List<PeekDuration> GetPeekHoursLondon(List<PeekDuration> peekDurationsToday, List<PeekDuration> peekDurationsTomorrow, DayOfWeek day)
         {
+            var tokyoTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Tokyo Standard Time");
             var britishTimeZone = TimeZoneInfo.FindSystemTimeZoneById("GMT Standard Time");
             var peekHoursLondon = new List<PeekDuration>();
             foreach (PeekDuration peekDuration in peekDurationsToday)
             {
-                var britishStartTime = TimeZoneInfo.ConvertTime(DateTime.Parse(peekDuration.StartTime), britishTimeZone);
-                var britishEndTime = TimeZoneInfo.ConvertTime(DateTime.Parse(peekDuration.EndTime), britishTimeZone);
+                var utcStartTime = TimeZoneInfo.ConvertTimeToUtc(peekDuration.StartDateTime, tokyoTimeZone);
+                var utcEndTime = TimeZoneInfo.ConvertTimeToUtc(peekDuration.EndDateTime, tokyoTimeZone);
+                var britishStartTime = TimeZoneInfo.ConvertTimeFromUtc(utcStartTime, britishTimeZone);
+                var britishEndTime = TimeZoneInfo.ConvertTimeFromUtc(utcEndTime, britishTimeZone);
                 if (britishStartTime.DayOfWeek == day || britishEndTime.DayOfWeek == day)
                     peekHoursLondon.Add(new PeekDuration { StartTime = britishStartTime.TimeOfDay.ToString(), StartDay = britishStartTime.DayOfWeek, EndTime = britishEndTime.TimeOfDay.ToString(), EndDay = britishEndTime.DayOfWeek });
             }
             foreach (PeekDuration peekDuration in peekDurationsTomorrow)
             {
-                var britishStartTime = TimeZoneInfo.ConvertTime(DateTime.Parse(peekDuration.StartTime).AddDays(1), britishTimeZone);
-                var britishEndTime = TimeZoneInfo.ConvertTime(DateTime.Parse(peekDuration.EndTime).AddDays(1), britishTimeZone);
+                var utcStartTime = TimeZoneInfo.ConvertTimeToUtc(peekDuration.StartDateTime, tokyoTimeZone);
+                var utcEndTime = TimeZoneInfo.ConvertTimeToUtc(peekDuration.EndDateTime, tokyoTimeZone);
+                var britishStartTime = TimeZoneInfo.ConvertTimeFromUtc(utcStartTime, britishTimeZone);
+                var britishEndTime = TimeZoneInfo.ConvertTimeFromUtc(utcEndTime, britishTimeZone);
                 if (britishStartTime.DayOfWeek == day || britishEndTime.DayOfWeek == day)
                     peekHoursLondon.Add(new PeekDuration { StartTime = britishStartTime.TimeOfDay.ToString(), StartDay = britishStartTime.DayOfWeek, EndTime = britishEndTime.TimeOfDay.ToString(), EndDay = britishEndTime.DayOfWeek });
             }
@@ -154,6 +172,8 @@ namespace TimeConversion
     /// </summary>
     public class PeekDuration
     {
+        public DateTime StartDateTime { get; set; }
+        public DateTime EndDateTime { get; set; }
         public string StartTime { get; set; }
         public string EndTime { get; set; }
         public DayOfWeek StartDay { get; set; }
