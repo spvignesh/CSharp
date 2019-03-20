@@ -24,7 +24,7 @@ namespace TimeConversion
             downTimeTokyo.Add(DayOfWeek.Wednesday, new List<PeekDuration> { new PeekDuration { StartDateTime = new DateTime(currentDateTime.Year, currentDateTime.Month, currentDateTime.Day, 0, 0, 0).AddDays(GetDays(currentDateTime.DayOfWeek, DayOfWeek.Wednesday)), EndDateTime = new DateTime(currentDateTime.Year, currentDateTime.Month, currentDateTime.Day, 8, 28, 0).AddDays(GetDays(currentDateTime.DayOfWeek, DayOfWeek.Wednesday)) }, new PeekDuration { StartDateTime = new DateTime(currentDateTime.Year, currentDateTime.Month, currentDateTime.Day, 22, 0, 0).AddDays(GetDays(currentDateTime.DayOfWeek, DayOfWeek.Wednesday)), EndDateTime = new DateTime(currentDateTime.Year, currentDateTime.Month, currentDateTime.Day, 23, 59, 0).AddDays(GetDays(currentDateTime.DayOfWeek, DayOfWeek.Wednesday)) } });
             downTimeTokyo.Add(DayOfWeek.Thursday, new List<PeekDuration> { new PeekDuration { StartDateTime = new DateTime(currentDateTime.Year, currentDateTime.Month, currentDateTime.Day, 0, 0, 0).AddDays(GetDays(currentDateTime.DayOfWeek, DayOfWeek.Thursday)), EndDateTime = new DateTime(currentDateTime.Year, currentDateTime.Month, currentDateTime.Day, 8, 28, 0).AddDays(GetDays(currentDateTime.DayOfWeek, DayOfWeek.Thursday)) }, new PeekDuration { StartDateTime = new DateTime(currentDateTime.Year, currentDateTime.Month, currentDateTime.Day, 22, 0, 0).AddDays(GetDays(currentDateTime.DayOfWeek, DayOfWeek.Thursday)), EndDateTime = new DateTime(currentDateTime.Year, currentDateTime.Month, currentDateTime.Day, 23, 59, 0).AddDays(GetDays(currentDateTime.DayOfWeek, DayOfWeek.Thursday)) } });
             downTimeTokyo.Add(DayOfWeek.Friday, new List<PeekDuration> { new PeekDuration { StartDateTime = new DateTime(currentDateTime.Year, currentDateTime.Month, currentDateTime.Day, 0, 0, 0).AddDays(GetDays(currentDateTime.DayOfWeek, DayOfWeek.Friday)), EndDateTime = new DateTime(currentDateTime.Year, currentDateTime.Month, currentDateTime.Day, 8, 28, 0).AddDays(GetDays(currentDateTime.DayOfWeek, DayOfWeek.Friday)) } });
-           
+
             DisplayTokyoPeekDurations(currentDateTime, downTimeTokyo);
             DisplayLondonPeekDurations(currentDateTime,downTimeTokyo);
             Console.ReadLine();
@@ -46,14 +46,19 @@ namespace TimeConversion
         private static void DisplayTokyoPeekDurations(DateTime currentDateTime, Dictionary<DayOfWeek, List<PeekDuration>> downTime)
         {
             var peekDurationsToday = new List<PeekDuration>();
+            var tokyoPeekDurations = string.Empty;
             downTime.TryGetValue(currentDateTime.DayOfWeek, out peekDurationsToday);
 
-            var peekDurations = new List<String>();
-            foreach (var peekDuration in peekDurationsToday)
+            if(peekDurationsToday != null)
             {
-                peekDurations.Add(string.Format("{2} {0}-{1}", peekDuration.StartDateTime.TimeOfDay, peekDuration.EndDateTime.TimeOfDay, currentDateTime.DayOfWeek));
+
+                var peekDurations = new List<String>();
+                foreach (var peekDuration in peekDurationsToday)
+                {
+                    peekDurations.Add(string.Format("{2} {0}-{1}", peekDuration.StartDateTime.TimeOfDay, peekDuration.EndDateTime.TimeOfDay, currentDateTime.DayOfWeek));
+                }
+                tokyoPeekDurations = string.Join(", ", peekDurations.ToArray());
             }
-            var tokyoPeekDurations = string.Join(", ", peekDurations.ToArray());
 
             Console.WriteLine("Peek Hours in Tokyo are --> {0}", tokyoPeekDurations);
         }
